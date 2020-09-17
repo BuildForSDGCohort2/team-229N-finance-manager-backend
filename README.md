@@ -1,5 +1,7 @@
 # Finance manager
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c3291d5d90894c97b29a8998530ec6d3)](https://app.codacy.com/gh/BuildForSDGCohort2/Team-229N-finance-manager-backend?utm_source=github.com&utm_medium=referral&utm_content=BuildForSDGCohort2/Team-229N-finance-manager-backend&utm_campaign=Badge_Grade_Settings)
+
 ![Finace manager](public/asset/finance.svg)
 
 > Finance manager is the online accounting software for small and medium enterprises. This softwares aims to bridge knowledge gap of young africans with no accounting background.
