@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import exphbs from 'express-handlebars';
-import morgan from 'morgan';
+
 import { connectDB } from './config/db';
 import path from 'path';
 import auth from './routes/auth';
@@ -24,6 +24,7 @@ const port = process.env.PORT || 8000;
 connectDB();
 // Logging
 if (!__prod__) {
+  const morgan = require('morgan');
   app.use(morgan('dev'));
 }
 // Handlebars

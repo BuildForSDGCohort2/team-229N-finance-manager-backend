@@ -7,7 +7,6 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const express_handlebars_1 = __importDefault(require("express-handlebars"));
-const morgan_1 = __importDefault(require("morgan"));
 const db_1 = require("./config/db");
 const path_1 = __importDefault(require("path"));
 const auth_1 = __importDefault(require("./routes/auth"));
@@ -20,7 +19,8 @@ const app = express_1.default();
 const port = process.env.PORT || 8000;
 db_1.connectDB();
 if (!constants_1.__prod__) {
-    app.use(morgan_1.default('dev'));
+    const morgan = require('morgan');
+    app.use(morgan('dev'));
 }
 app.engine('.hbs', express_handlebars_1.default({
     defaultLayout: 'main',
