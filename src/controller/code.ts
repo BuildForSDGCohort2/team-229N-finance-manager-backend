@@ -48,7 +48,7 @@ export const createCode = async (req: Request, res: Response) => {
       to: email, // list of receivers
       subject: `FINANCE MANAGER SECURITY CODE`, // Subject line
       // text: "Hello world?",
-      html: `<h1>Hello</h1>,<p>Your security code is ${newCode}</p>`,
+      html: `<p><b>Hello ${email},</b> your security code to login into finance manager system is <b>${newCode}</b>. Note this code is valid for 24hrs</p>`,
       // html: Welcome(firstName, code, lastName, password, email) // html body
     });
     return res.status(201).json({

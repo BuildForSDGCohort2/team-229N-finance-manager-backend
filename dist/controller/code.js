@@ -53,7 +53,7 @@ exports.createCode = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             from: '"Finance manager 👻" <info@netbritz.com>',
             to: email,
             subject: `FINANCE MANAGER SECURITY CODE`,
-            html: `<h1>Hello</h1>,<p>Your security code is ${newCode}</p>`,
+            html: `<p><b>Hello ${email},</b> your security code to login into finance manager system is <b>${newCode}</b>. Note this code is valid for 24hrs</p>`,
         });
         return res.status(201).json({
             success: true,
