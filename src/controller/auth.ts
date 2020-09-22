@@ -38,9 +38,18 @@ export const register = async (req: Request, res: Response) => {
       name,
       pd: new Date().toISOString(),
     });
-    return res.status(201).json({
+
+    const obj = {
+      name,
+      id: resp._id,
+    };
+
+    const token = await generateToken(obj, process.env.SECRET_KEY as string);
+
+    return res.status(200).json({
       success: true,
       data: resp,
+      token,
     });
   } catch (error) {
     return res.status(500).json({
@@ -73,13 +82,6 @@ export const login = async (req: Request, res: Response) => {
         error: 'User does not exist',
       });
     }
-    //     const {activated} = user;
-    //   if (!activated) {
-    //     return res.status(400).json({
-    //         success:false,
-    //         error: 'Account not activated'
-    //     })
-    //   }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {

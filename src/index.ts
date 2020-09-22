@@ -10,13 +10,17 @@ import company from './routes/company';
 import code from './routes/code';
 import transaction from './routes/transaction';
 import { __prod__ } from './constants';
+// import os, { arch, cpus, freemem, hostname, userInfo } from 'os';
+// const os = require('os');
 // Load config
 dotenv.config({ path: './config.env' });
 
 const app: Application = express();
 
 const port = process.env.PORT || 8000;
-
+// console.log('my info', os.userInfo());
+// console.log(os.constants);
+// console.log('Architecture: ' + os.arch());
 connectDB();
 // Logging
 if (!__prod__) {

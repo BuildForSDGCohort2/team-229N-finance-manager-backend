@@ -1,12 +1,6 @@
 import * as mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
-  // googleId: {
-  //   type: String || null,
-  //   default: null,
-  //   // unique: true,
-  //   //   required: true,
-  // },
   email: {
     type: String,
     unique: true,

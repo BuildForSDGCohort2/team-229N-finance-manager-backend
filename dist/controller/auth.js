@@ -43,9 +43,15 @@ exports.register = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             name,
             pd: new Date().toISOString(),
         });
-        return res.status(201).json({
+        const obj = {
+            name,
+            id: resp._id,
+        };
+        const token = yield helpers_1.generateToken(obj, process_1.default.env.SECRET_KEY);
+        return res.status(200).json({
             success: true,
             data: resp,
+            token,
         });
     }
     catch (error) {

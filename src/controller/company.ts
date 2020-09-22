@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
-import { getMe } from '../helpers/helpers';
+import Cash from '../modals/Cash';
+import Journal from '../modals/Journal';
+import { generateCode, getMe } from '../helpers/helpers';
 import { Token, CreateCompany } from '../interface/interface';
 import Company from '../modals/Company';
+import Capital from '../modals/Capital';
+import Bank from '../modals/Bank';
 
 export const createCompany = async (req: Request, res: Response) => {
   if (!req.is('application/json')) {
@@ -19,6 +23,8 @@ export const createCompany = async (req: Request, res: Response) => {
       phone,
       twt,
       yt,
+      bankBal,
+      cashBal,
     } = req.body as CreateCompany;
 
     if (!name || !email || !desc) {
@@ -41,6 +47,12 @@ export const createCompany = async (req: Request, res: Response) => {
         error: `${email} exist on already registered company`,
       });
     }
+    if (!cashBal && !bankBal) {
+      return res.status(200).json({
+        success: false,
+        error: 'Cash or bank balance is required',
+      });
+    }
     const resp = await Company.create({
       name,
       email,
@@ -54,6 +66,78 @@ export const createCompany = async (req: Request, res: Response) => {
       user: id,
       pd: new Date().toISOString(),
     });
+    const { _id } = resp;
+    if (cashBal) {
+      const code = generateCode(8);
+      await Cash.create({
+        amount: cashBal,
+        pd: new Date().toISOString(),
+        code,
+        id: _id,
+        type: 'dr',
+        details: 'Balance b/d',
+      });
+      await Capital.create({
+        amount: cashBal,
+        pd: new Date().toISOString(),
+        code,
+        id: _id,
+        type: 'cr',
+        details: 'Cash',
+      });
+      await Journal.create({
+        amount: cashBal,
+        pd: new Date().toISOString(),
+        code,
+        id: _id,
+        type: 'dr',
+        details: 'Cash',
+      });
+      await Journal.create({
+        amount: cashBal,
+        pd: new Date().toISOString(),
+        code,
+        id: _id,
+        type: 'cr',
+        details: 'Capital',
+      });
+    }
+
+    if (bankBal) {
+      const code = generateCode(8);
+      await Bank.create({
+        amount: bankBal,
+        pd: new Date().toISOString(),
+        code,
+        id: _id,
+        type: 'dr',
+        details: 'Balance b/d',
+      });
+      await Capital.create({
+        amount: bankBal,
+        pd: new Date().toISOString(),
+        code,
+        id: _id,
+        type: 'cr',
+        details: 'Bank',
+      });
+      await Journal.create({
+        amount: bankBal,
+        pd: new Date().toISOString(),
+        code,
+        id: _id,
+        type: 'dr',
+        details: 'Bank',
+      });
+      await Journal.create({
+        amount: bankBal,
+        pd: new Date().toISOString(),
+        code,
+        id: _id,
+        type: 'cr',
+        details: 'Capital',
+      });
+    }
 
     return res.status(201).json({
       success: true,

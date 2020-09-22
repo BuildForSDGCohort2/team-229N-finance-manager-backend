@@ -18,7 +18,7 @@ const journalSchema = new mongoose.Schema({
     type: Number,
     // required: true,
   },
-  ref: {
+  code: {
     type: String,
   },
   pd: {

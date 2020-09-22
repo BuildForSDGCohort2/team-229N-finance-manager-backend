@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Security from '../modals/Security';
+import nodemailer from 'nodemailer';
 
 import { generateCode, getMe } from '../helpers/helpers';
 interface Code {
@@ -32,7 +33,24 @@ export const createCode = async (req: Request, res: Response) => {
     } else {
       await Security.create({ code: newCode, email, uid: id });
     }
+    const transporter = await nodemailer.createTransport({
+      host: 'smtp.zoho.com',
+      port: 465,
+      secure: true, // true for 465, false for other ports
+      auth: {
+        user: 'info@netbritz.com',
+        pass: 'ATbba5fBkTjK',
+      },
+    });
 
+    await transporter.sendMail({
+      from: '"Finance manager 👻" <info@netbritz.com>', // sender address
+      to: email, // list of receivers
+      subject: `FINANCE MANAGER SECURITY CODE`, // Subject line
+      // text: "Hello world?",
+      html: `<h1>Hello</h1>,<p>Your security code is ${newCode}</p>`,
+      // html: Welcome(firstName, code, lastName, password, email) // html body
+    });
     return res.status(201).json({
       success: true,
       info: 'Security code sent',

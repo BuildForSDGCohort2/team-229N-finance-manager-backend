@@ -1,29 +1,32 @@
-// import * as mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 
-// const cashSchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     unique: true,
-//     required: true,
-//   },
-//   details: {
-//     type: String,
-//   },
-//   type: {
-//     type: String,
-//     required: true,
-//     //   default:false
-//   },
-//   amount: {
-//     type: Number,
-//     required: true,
-//   },
-//   pd: {
-//     type: Date,
-//     //   default: Date.now,
-//   },
-// });
+const cashSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    // unique: true,
+    // required: true,
+  },
+  details: {
+    type: String,
+  },
+  type: {
+    type: String,
+    // required: true,
+    //   default:false
+  },
+  amount: {
+    type: Number,
+    // required: true,
+  },
+  code: {
+    type: String,
+  },
+  pd: {
+    type: Date,
+    //   default: Date.now
+  },
+});
 
-// const Cash = mongoose.model('Cash', cashSchema);
+const Cash = mongoose.model('Cash', cashSchema);
 
-// export default Cash;
+export default Cash;

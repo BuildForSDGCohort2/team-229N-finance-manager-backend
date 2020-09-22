@@ -13,15 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCompanies = exports.createCompany = void 0;
+const Cash_1 = __importDefault(require("../modals/Cash"));
+const Journal_1 = __importDefault(require("../modals/Journal"));
 const helpers_1 = require("../helpers/helpers");
 const Company_1 = __importDefault(require("../modals/Company"));
+const Capital_1 = __importDefault(require("../modals/Capital"));
+const Bank_1 = __importDefault(require("../modals/Bank"));
 exports.createCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.is('application/json')) {
         return res.json("Expects 'application/json'");
     }
     try {
         const { id } = (yield helpers_1.getMe(req));
-        const { name, email, bank, desc, fb, location, phone, twt, yt, } = req.body;
+        const { name, email, bank, desc, fb, location, phone, twt, yt, bankBal, cashBal, } = req.body;
         if (!name || !email || !desc) {
             return res.status(200).json({
                 success: false,
@@ -42,6 +46,12 @@ exports.createCompany = (req, res) => __awaiter(void 0, void 0, void 0, function
                 error: `${email} exist on already registered company`,
             });
         }
+        if (!cashBal && !bankBal) {
+            return res.status(200).json({
+                success: false,
+                error: 'Cash or bank balance is required',
+            });
+        }
         const resp = yield Company_1.default.create({
             name,
             email,
@@ -55,6 +65,77 @@ exports.createCompany = (req, res) => __awaiter(void 0, void 0, void 0, function
             user: id,
             pd: new Date().toISOString(),
         });
+        const { _id } = resp;
+        if (cashBal) {
+            const code = helpers_1.generateCode(8);
+            yield Cash_1.default.create({
+                amount: cashBal,
+                pd: new Date().toISOString(),
+                code,
+                id: _id,
+                type: 'dr',
+                details: 'Balance b/d',
+            });
+            yield Capital_1.default.create({
+                amount: cashBal,
+                pd: new Date().toISOString(),
+                code,
+                id: _id,
+                type: 'cr',
+                details: 'Cash',
+            });
+            yield Journal_1.default.create({
+                amount: cashBal,
+                pd: new Date().toISOString(),
+                code,
+                id: _id,
+                type: 'dr',
+                details: 'Cash',
+            });
+            yield Journal_1.default.create({
+                amount: cashBal,
+                pd: new Date().toISOString(),
+                code,
+                id: _id,
+                type: 'cr',
+                details: 'Capital',
+            });
+        }
+        if (bankBal) {
+            const code = helpers_1.generateCode(8);
+            yield Bank_1.default.create({
+                amount: bankBal,
+                pd: new Date().toISOString(),
+                code,
+                id: _id,
+                type: 'dr',
+                details: 'Balance b/d',
+            });
+            yield Capital_1.default.create({
+                amount: bankBal,
+                pd: new Date().toISOString(),
+                code,
+                id: _id,
+                type: 'cr',
+                details: 'Bank',
+            });
+            yield Journal_1.default.create({
+                amount: bankBal,
+                pd: new Date().toISOString(),
+                code,
+                id: _id,
+                type: 'dr',
+                details: 'Bank',
+            });
+            yield Journal_1.default.create({
+                amount: bankBal,
+                pd: new Date().toISOString(),
+                code,
+                id: _id,
+                type: 'cr',
+                details: 'Capital',
+            });
+        }
         return res.status(201).json({
             success: true,
             data: resp,

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyCode = exports.createCode = void 0;
 const Security_1 = __importDefault(require("../modals/Security"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const helpers_1 = require("../helpers/helpers");
 exports.createCode = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.is('application/json')) {
@@ -39,6 +40,21 @@ exports.createCode = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         else {
             yield Security_1.default.create({ code: newCode, email, uid: id });
         }
+        const transporter = yield nodemailer_1.default.createTransport({
+            host: 'smtp.zoho.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'info@netbritz.com',
+                pass: 'ATbba5fBkTjK',
+            },
+        });
+        yield transporter.sendMail({
+            from: '"Finance manager 👻" <info@netbritz.com>',
+            to: email,
+            subject: `FINANCE MANAGER SECURITY CODE`,
+            html: `<h1>Hello</h1>,<p>Your security code is ${newCode}</p>`,
+        });
         return res.status(201).json({
             success: true,
             info: 'Security code sent',

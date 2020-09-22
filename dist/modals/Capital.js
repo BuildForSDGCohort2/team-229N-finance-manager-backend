@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
-const journalSchema = new mongoose.Schema({
+const capitalSchema = new mongoose.Schema({
     id: {
         type: String,
     },
@@ -40,5 +40,5 @@ const journalSchema = new mongoose.Schema({
         type: Date,
     },
 });
-const Journal = mongoose.model('Journal', journalSchema);
-exports.default = Journal;
+const Capital = mongoose.model('Capital', capitalSchema);
+exports.default = Capital;

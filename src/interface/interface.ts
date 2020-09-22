@@ -28,6 +28,8 @@ export interface CreateCompany {
   desc: string;
   location: string;
   user: string;
+  bankBal: number;
+  cashBal: number;
 }
 
 export interface Transaction {

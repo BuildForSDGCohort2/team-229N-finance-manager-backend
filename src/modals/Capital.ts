@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-const bankSchema = new mongoose.Schema({
+const capitalSchema = new mongoose.Schema({
   id: {
     type: String,
     // unique: true,
@@ -27,6 +27,6 @@ const bankSchema = new mongoose.Schema({
   },
 });
 
-const Bank = mongoose.model('Bank', bankSchema);
+const Capital = mongoose.model('Capital', capitalSchema);
 
-export default Bank;
+export default Capital;

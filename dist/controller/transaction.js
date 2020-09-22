@@ -12,88 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get = exports.setUp = void 0;
-const helpers_1 = require("../helpers/helpers");
-const Company_1 = __importDefault(require("../modals/Company"));
+exports.getInitialData = void 0;
+const Cash_1 = __importDefault(require("../modals/Cash"));
 const Journal_1 = __importDefault(require("../modals/Journal"));
-exports.setUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.is('application/json')) {
-        return res.json("Expects 'application/json'");
-    }
-    try {
-        const { id, cash, bank } = req.body;
-        if (!id) {
-            return res.status(200).json({
-                success: false,
-                error: 'Error try again',
-            });
-        }
-        if (!cash && !bank) {
-            return res.status(200).json({
-                success: false,
-                error: 'Cash or bank balance is required',
-            });
-        }
-        const company = yield Company_1.default.findById(id);
-        if (!company) {
-            return res.status(200).json({
-                success: false,
-                error: 'Company does not exist',
-            });
-        }
-        if (cash) {
-            const ref = helpers_1.generateCode(8);
-            yield Journal_1.default.create({
-                amount: cash,
-                pd: new Date().toISOString(),
-                ref,
-                id,
-                type: 'dr',
-                details: 'Cash',
-            });
-            yield Journal_1.default.create({
-                amount: cash,
-                pd: new Date().toISOString(),
-                ref,
-                id,
-                type: 'cr',
-                details: 'Capital',
-            });
-        }
-        if (bank) {
-            const ref = helpers_1.generateCode(8);
-            yield Journal_1.default.create({
-                amount: bank,
-                pd: new Date().toISOString(),
-                ref,
-                id,
-                type: 'dr',
-                details: 'Bank',
-            });
-            yield Journal_1.default.create({
-                amount: bank,
-                pd: new Date().toISOString(),
-                ref,
-                id,
-                type: 'cr',
-                details: 'Capital',
-            });
-        }
-        const resp = yield Journal_1.default.find({ id });
-        return res.status(201).json({
-            success: true,
-            data: resp,
-        });
-    }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            error: 'Server error',
-        });
-    }
-});
-exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const Bank_1 = __importDefault(require("../modals/Bank"));
+const Capital_1 = __importDefault(require("../modals/Capital"));
+exports.getInitialData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
         if (!id) {
@@ -102,17 +26,18 @@ exports.get = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 error: 'Error try again',
             });
         }
-        const resp = yield Journal_1.default.aggregate([
-            {
-                $group: {
-                    _id: '$ref',
-                    data: { $push: '$$ROOT' },
-                },
-            },
-        ]);
+        const capital = yield Capital_1.default.find({ id }).sort({ pd: -1 });
+        const bank = yield Bank_1.default.find({ id }).sort({ pd: -1 });
+        const cash = yield Cash_1.default.find({ id }).sort({ pd: -1 });
+        const journal = yield Journal_1.default.find({ id }).sort({ pd: -1 });
         return res.status(201).json({
             success: true,
-            data: resp,
+            data: {
+                capital,
+                bank,
+                cash,
+                journal,
+            },
         });
     }
     catch (error) {
