@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-const assetSchema = new mongoose.Schema({
+const cashBookSchema = new mongoose.Schema({
   id: {
     type: String,
     // unique: true,
@@ -14,7 +14,11 @@ const assetSchema = new mongoose.Schema({
     // required: true,
     //   default:false
   },
-  amount: {
+  cash: {
+    type: Number,
+    // required: true,
+  },
+  bank: {
     type: Number,
     // required: true,
   },
@@ -27,6 +31,6 @@ const assetSchema = new mongoose.Schema({
   },
 });
 
-const Asset = mongoose.model('Asset', assetSchema);
+const Cashbook = mongoose.model('Cashbook', cashBookSchema);
 
-export default Asset;
+export default Cashbook;

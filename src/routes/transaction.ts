@@ -1,19 +1,13 @@
 import { Router } from 'express';
-import {
-  // getjournal,
-  // getcash,
-  // getbank,
-  // getcapital,
-  getInitialData,
-} from '../controller/transaction';
+import { manageAsset, getInitialData } from '../controller/transaction';
 import { auth } from '../helpers/helpers';
 const router = Router();
 
 /**
- * @description get cash balances
+ * @description buy and sell asset
  * @route  /transaction/getcash
  */
-// router.route('/getcash/:id').get(auth, getcash);
+router.route('/manageasset').post(auth, manageAsset);
 
 /**
  * @description get bank balances

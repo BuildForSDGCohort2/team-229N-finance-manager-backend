@@ -14,10 +14,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  // activated: {
-  //   type: Boolean,
-  //   default: false,
-  // },
+
   lastLogin: {
     type: Date || null,
     default: null,

@@ -38,4 +38,6 @@ export interface Transaction {
   name: string;
   cash: number;
   bank: number;
+  account: 'cash' | 'bank';
+  type: 'sell' | 'buy';
 }

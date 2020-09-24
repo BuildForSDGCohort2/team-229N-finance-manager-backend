@@ -11,9 +11,10 @@
 ## Technology stack
 
 - Typescript
-- Reactjs, Redux, saas (Frontend).
+- Reactjs, Redux, styled-components, saas, react-motion (Frontend).
 - Nodejs, express, (Backend)
 - MongoDb (database)
+  -Node mailer
 
 ## Security.
 
@@ -25,12 +26,12 @@
 ### TODO.
 
 - [x] Two factor authentication
-- [ ] Journals
-- [ ] Ledgers
+- [x] Journals
+- [x] Ledgers
 - [ ] Cashbooks
-- [ ] Trial balance
+- [x] Trial balance
 - [ ] Income statement (Statement of financial position)
-- [ ] Balance sheet
+- [x] Balance sheet
 - [ ] Payroll
 - [ ] Printable reports
 - [ ] Stock management

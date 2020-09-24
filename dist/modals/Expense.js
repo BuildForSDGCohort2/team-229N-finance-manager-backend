@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
-const assetSchema = new mongoose.Schema({
+const expenseSchema = new mongoose.Schema({
     id: {
         type: String,
     },
@@ -40,5 +40,5 @@ const assetSchema = new mongoose.Schema({
         type: Date,
     },
 });
-const Asset = mongoose.model('Asset', assetSchema);
-exports.default = Asset;
+const Expense = mongoose.model('Expense', expenseSchema);
+exports.default = Expense;
