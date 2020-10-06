@@ -35,9 +35,13 @@ export interface CreateCompany {
 export interface Transaction {
   id: string;
   amount: number;
-  name: string;
+  name: 'land' | 'vehicle' | 'machine';
   cash: number;
   bank: number;
   account: 'cash' | 'bank';
   type: 'sell' | 'buy';
+  item: string;
+  price: number;
+  qty: number;
+  sPrice: number;
 }

@@ -1,34 +1,45 @@
 import { Router } from 'express';
-import { manageAsset, getInitialData } from '../controller/transaction';
+import {
+  buyAsset,
+  getInitialData,
+  sellAsset,
+  buyStock,
+  sellStock,
+  payExpense,
+} from '../controller/transaction';
 import { auth } from '../helpers/helpers';
 const router = Router();
 
 /**
- * @description buy and sell asset
- * @route  /transaction/getcash
+ * @description Buy asset
+ * @route  /transaction/buyasset
  */
-router.route('/manageasset').post(auth, manageAsset);
+router.route('/buyasset').post(auth, buyAsset);
 
 /**
- * @description get bank balances
- * @route  /transaction/getbank
+ * @description Sell asset
+ * @route  /transaction/sellasset
  */
-// router.route('/getbank/:id').get(auth, getbank);
+router.route('/sellasset').post(auth, sellAsset);
 /**
- * @description get capital balances
- * @route  /transaction/getcapital
+ * @description Buy stock
+ * @route  /transaction/buystock
  */
-// router.route('/getcapital/:id').get(auth, getcapital);
-
+router.route('/buystock').post(auth, buyStock);
 /**
- * @description // Get journal
- * @route  /transactions/getjournal
+ * @description Sell stock
+ * @route  /transaction/sellstock
  */
-// router.route('/getjournal/:id').get(auth, getjournal);
+router.route('/sellstock').post(auth, sellStock);
 /**
  * @description // Get journal
  * @route  /transactions/getjournal
  */
 router.route('/getInitialData/:id').get(auth, getInitialData);
 
+/**
+ * @description pay expense
+ * @route  /transaction/payexpense
+ */
+router.route('/payexpense').post(auth, payExpense);
 export default router;

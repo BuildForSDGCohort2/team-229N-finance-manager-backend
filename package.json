@@ -9,7 +9,9 @@
     "gen-env": "gen-env-types .env -o src/env.d.ts -e .",
     "watch": "tsc -w",
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "dev": "cross-env NODE_ENV=development nodemon dist/index.js"
+    "dev": "cross-env NODE_ENV=development nodemon dist/index.js",
+    "test": "jest",
+    "testwatch": "jest --watchAll"
   },
   "dependencies": {
     "axios": "^0.20.0",
@@ -43,6 +45,7 @@
     "@types/express": "^4.17.8",
     "@types/express-handlebars": "^3.1.0",
     "@types/fs-extra": "^9.0.1",
+    "@types/jest": "^26.0.14",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/jwt-decode": "^2.2.1",
     "@types/lodash": "^4.14.161",
@@ -58,6 +61,7 @@
     "eslint": "^7.8.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "jest": "^26.4.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.2",
     "prettier": "^2.1.1",

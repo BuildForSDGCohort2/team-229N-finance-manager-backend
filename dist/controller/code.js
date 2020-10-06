@@ -40,21 +40,26 @@ exports.createCode = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         else {
             yield Security_1.default.create({ code: newCode, email, uid: id });
         }
-        const transporter = yield nodemailer_1.default.createTransport({
-            host: 'smtp.zoho.com',
-            port: 465,
-            secure: true,
-            auth: {
-                user: 'info@netbritz.com',
-                pass: 'ATbba5fBkTjK',
-            },
-        });
-        yield transporter.sendMail({
-            from: '"Finance manager 👻" <info@netbritz.com>',
-            to: email,
-            subject: `FINANCE MANAGER SECURITY CODE`,
-            html: `<p><b>Hello ${email},</b> your security code to login into finance manager system is <b>${newCode}</b>. Note this code is valid for 24hrs</p>`,
-        });
+        try {
+            const transporter = yield nodemailer_1.default.createTransport({
+                host: 'smtp.zoho.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: 'info@netbritz.com',
+                    pass: 'ATbba5fBkTjK',
+                },
+            });
+            yield transporter.sendMail({
+                from: '"Finance manager 👻" <info@netbritz.com>',
+                to: email,
+                subject: `FINANCE MANAGER SECURITY CODE`,
+                html: `<p><b>Hello ${email},</b> your security code to login into finance manager system is <b>${newCode}</b>. Note this code is valid for 24hrs</p>`,
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
         return res.status(201).json({
             success: true,
             info: 'Security code sent',

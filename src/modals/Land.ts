@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-const cashBookSchema = new mongoose.Schema({
+const landSchema = new mongoose.Schema({
   id: {
     type: String,
     // unique: true,
@@ -14,18 +14,16 @@ const cashBookSchema = new mongoose.Schema({
     // required: true,
     //   default:false
   },
-  cash: {
+  amount: {
     type: Number,
-    default: 0,
-    // required: true,
-  },
-  bank: {
-    type: Number,
-    default: 0,
     // required: true,
   },
   code: {
     type: String,
+  },
+  sold: {
+    type: Boolean,
+    default: false,
   },
   pd: {
     type: Date,
@@ -33,6 +31,6 @@ const cashBookSchema = new mongoose.Schema({
   },
 });
 
-const Cashbook = mongoose.model('Cashbook', cashBookSchema);
+const Land = mongoose.model('Land', landSchema);
 
-export default Cashbook;
+export default Land;

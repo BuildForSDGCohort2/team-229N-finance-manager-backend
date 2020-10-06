@@ -33,24 +33,29 @@ export const createCode = async (req: Request, res: Response) => {
     } else {
       await Security.create({ code: newCode, email, uid: id });
     }
-    const transporter = await nodemailer.createTransport({
-      host: 'smtp.zoho.com',
-      port: 465,
-      secure: true, // true for 465, false for other ports
-      auth: {
-        user: 'info@netbritz.com',
-        pass: 'ATbba5fBkTjK',
-      },
-    });
+    try {
+      const transporter = await nodemailer.createTransport({
+        host: 'smtp.zoho.com',
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: 'info@netbritz.com',
+          pass: 'ATbba5fBkTjK',
+        },
+      });
 
-    await transporter.sendMail({
-      from: '"Finance manager 👻" <info@netbritz.com>', // sender address
-      to: email, // list of receivers
-      subject: `FINANCE MANAGER SECURITY CODE`, // Subject line
-      // text: "Hello world?",
-      html: `<p><b>Hello ${email},</b> your security code to login into finance manager system is <b>${newCode}</b>. Note this code is valid for 24hrs</p>`,
-      // html: Welcome(firstName, code, lastName, password, email) // html body
-    });
+      await transporter.sendMail({
+        from: '"Finance manager 👻" <info@netbritz.com>', // sender address
+        to: email, // list of receivers
+        subject: `FINANCE MANAGER SECURITY CODE`, // Subject line
+        // text: "Hello world?",
+        html: `<p><b>Hello ${email},</b> your security code to login into finance manager system is <b>${newCode}</b>. Note this code is valid for 24hrs</p>`,
+        // html: Welcome(firstName, code, lastName, password, email) // html body
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     return res.status(201).json({
       success: true,
       info: 'Security code sent',

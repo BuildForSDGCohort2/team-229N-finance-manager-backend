@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
-const purchaseSchema = new mongoose.Schema({
+const vehicleSchema = new mongoose.Schema({
     id: {
         type: String,
     },
@@ -36,9 +36,13 @@ const purchaseSchema = new mongoose.Schema({
     code: {
         type: String,
     },
+    sold: {
+        type: Boolean,
+        default: false,
+    },
     pd: {
         type: Date,
     },
 });
-const Purcahse = mongoose.model('Purchase', purchaseSchema);
-exports.default = Purcahse;
+const Vehicle = mongoose.model('Vehicle', vehicleSchema);
+exports.default = Vehicle;

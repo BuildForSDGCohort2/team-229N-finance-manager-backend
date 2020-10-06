@@ -1,6 +1,17 @@
 import jwt from 'jsonwebtoken';
 import { NextFunction, Response, Request } from 'express';
 import { Token } from '../interface/interface';
+import Bank from '../modals/Bank';
+import Capital from '../modals/Capital';
+import Cash from '../modals/Cash';
+import Journal from '../modals/Journal';
+import Land from '../modals/Land';
+import Machine from '../modals/Machine';
+import Stock from '../modals/Stock';
+import Vehicle from '../modals/Vehicle';
+import Cashbook from '../modals/Cashbook';
+import Sale from '../modals/Sales';
+import Expense from '../modals/Expense';
 
 export const generateToken = async (
   user: Token,
@@ -33,12 +44,12 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         next();
       }
     } catch (e) {
-      res.status(401).json({
+      res.status(200).json({
         message: 'Invalid or expired token',
       });
     }
   } else {
-    res.status(401).json({
+    res.status(200).json({
       message: 'Auth token required',
     });
   }
@@ -64,3 +75,32 @@ export const generateCode = (len: number): string => {
   }
   return result;
 };
+export const getAllData = async (id: string) => {
+  const capital = await Capital.find({ id });
+  const bank = await Bank.find({ id });
+  const cash = await Cash.find({ id });
+  const journal = await Journal.find({ id }).sort({ pd: -1 });
+  const land = await Land.find({ id }).sort({ pd: -1 });
+  const vehicle = await Vehicle.find({ id }).sort({ pd: -1 });
+  const machine = await Machine.find({ id }).sort({ pd: -1 });
+  const stock = await Stock.find({ id }).sort({ pd: -1 });
+  const cashbook = await Cashbook.find({ id }).sort({ pd: -1 });
+  const sales = await Sale.find({ id }).sort({ pd: -1 });
+  const expenses = await Expense.find({ id }).sort({ pd: -1 });
+  return {
+    capital,
+    bank,
+    cash,
+    journal,
+    land,
+    vehicle,
+    machine,
+    stock,
+    sales,
+    cashbook,
+    expenses,
+  };
+};
+
+export const jsUcfirst = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1);

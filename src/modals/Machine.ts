@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-const assetSchema = new mongoose.Schema({
+const machineSchema = new mongoose.Schema({
   id: {
     type: String,
     // unique: true,
@@ -25,8 +25,12 @@ const assetSchema = new mongoose.Schema({
     type: Date,
     //   default: Date.now
   },
+  sold: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const Asset = mongoose.model('Asset', assetSchema);
+const Machine = mongoose.model('Machine', machineSchema);
 
-export default Asset;
+export default Machine;
