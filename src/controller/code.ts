@@ -35,12 +35,12 @@ export const createCode = async (req: Request, res: Response) => {
     }
     try {
       const transporter = await nodemailer.createTransport({
-        host: 'smtp.zoho.com',
+        host: process.env.SMTP as string,
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: 'info@netbritz.com',
-          pass: 'ATbba5fBkTjK',
+          user: process.env.SMTP_USER as string,
+          pass: process.env.SMTP_PASSWORD as string,
         },
       });
 

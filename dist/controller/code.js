@@ -42,12 +42,12 @@ exports.createCode = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
         try {
             const transporter = yield nodemailer_1.default.createTransport({
-                host: 'smtp.zoho.com',
+                host: process.env.SMTP,
                 port: 465,
                 secure: true,
                 auth: {
-                    user: 'info@netbritz.com',
-                    pass: 'ATbba5fBkTjK',
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASSWORD,
                 },
             });
             yield transporter.sendMail({

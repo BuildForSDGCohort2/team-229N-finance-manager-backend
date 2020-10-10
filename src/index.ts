@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-import dotenv from 'dotenv';
+
 import cors from 'cors';
 import exphbs from 'express-handlebars';
 
@@ -13,7 +13,6 @@ import { __prod__ } from './constants';
 // import os, { arch, cpus, freemem, hostname, userInfo } from 'os';
 // const os = require('os');
 // Load config
-dotenv.config({ path: './config.env' });
 
 const app: Application = express();
 
@@ -21,8 +20,13 @@ const port = process.env.PORT || 8000;
 // console.log('my info', os.userInfo());
 // console.log(os.constants);
 // console.log('Architecture: ' + os.arch());
-connectDB();
+
 // Logging
+if (!__prod__) {
+  const dotenv = require('dotenv');
+  dotenv.config({ path: './config.env' });
+}
+
 if (!__prod__) {
   const morgan = require('morgan');
   app.use(morgan('dev'));
@@ -70,7 +74,7 @@ app.use('/code', code);
  * Routes for transactions
  */
 app.use('/transaction', transaction);
-
+connectDB();
 app.listen(port, () =>
   console.log(`app started on port ${port} in ${process.env.NODE_ENV} mode`)
 );
