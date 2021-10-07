@@ -39,12 +39,15 @@ app.engine(
     extname: '.hbs',
   })
 );
-
+const corsOptions = {
+  origin: 'https://cohot2.herokuapp.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 app.set('view engine', '.hbs');
 // Body parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 // Static folder
 app.use(express.static(path.join(__dirname, '../public')));
 
