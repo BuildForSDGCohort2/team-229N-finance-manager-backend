@@ -39,9 +39,9 @@ app.engine(
     extname: '.hbs',
   })
 );
-const whitelist = ['http://localhost', 'https://cohot2.herokuapp.com'];
+const whitelist:string[] = ['http://localhost', 'https://cohot2.herokuapp.com'];
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: (origin:string, callback:Function)=> {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
