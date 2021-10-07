@@ -39,21 +39,21 @@ app.engine(
     extname: '.hbs',
   })
 );
-const whitelist:string[] = ['http://localhost', 'https://cohot2.herokuapp.com'];
-const corsOptions = {
-  origin: (origin:any, callback:any)=> {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+// const whitelist:string[] = ['http://localhost', 'https://cohot2.herokuapp.com'];
+// const corsOptions = {
+//   origin: (origin:any, callback:any)=> {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
 app.set('view engine', '.hbs');
 // Body parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
 // Static folder
 app.use(express.static(path.join(__dirname, '../public')));
 
